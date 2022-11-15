@@ -1,24 +1,47 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+
+import "bootstrap/dist/css/bootstrap.min.css";
+
+import Header from "./components/Header";
+import ListBar from "./components/ListBar";
+import { useState } from "react";
+import DisplayList from "./components/DisplayList";
 
 function App() {
+  const [value, setValue] = useState("");
+  const [list, setList] = useState([]);
+  const [checked, setChecked] = useState(false);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <>
+      <header>
+        <Header />
       </header>
-    </div>
+      <main>
+        <ListBar
+          value={value}
+          setValue={setValue}
+          list={list}
+          setList={setList}
+          checked={checked}
+          setChecked={setChecked}
+        />
+        {list
+          .sort((a, b) => {
+            return a.checked - b.checked;
+          })
+          .map((el, index) => {
+            return (
+              <DisplayList
+                key={index}
+                task={el}
+                checked={checked}
+                setChecked={setChecked}
+              />
+            );
+          })}
+      </main>
+      <footer></footer>
+    </>
   );
 }
 
